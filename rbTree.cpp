@@ -132,18 +132,19 @@ rbTreeNode<K, T>* RBTree<K, T>::minInTree(rbTreeNode<K, T> *node) {
 
 template <typename K, typename T>
 void RBTree<K, T>::insert(K key, T value) {
-    rbTreeNode<K, T> *node = new rbTreeNode<K, T>; // the newly inserted node
-    node->key = key;
-    node->value = value;
     rbTreeNode<K, T> *parent = this->root; // store the parent pointer
     rbTreeNode<K, T> *pos = this->root; // store the current position of the searching pointer
     
     while (pos != nullptr) {
         parent = pos;
-        if (node->key < pos->key) pos = pos->leftChild;
-        else if (node->key == pos->key) return;
+        if (key < pos->key) pos = pos->leftChild;
+        else if (key == pos->key) return;
         else pos = pos->rightChild;
     }
+    
+    rbTreeNode<K, T> *node = new rbTreeNode<K, T>; // the newly inserted node
+    node->key = key;
+    node->value = value;
     
     if (parent == nullptr) { // the RBTress is empty now, the newly inserted node will be the root node
         this->root = node;
@@ -159,6 +160,73 @@ void RBTree<K, T>::insert(K key, T value) {
     while (node != nullptr) {
         node = this->insertRemedy(node);
     }
+}
+
+template <typename K, typename T>
+T RBTree<K, T>::increase(K key, T value) {
+    rbTreeNode<K, T> *parent = this->root; // store the parent pointer
+    rbTreeNode<K, T> *pos = this->root; // store the current position of the searching pointer
+    
+    while (pos != nullptr) {
+        parent = pos;
+        if (key < pos->key) pos = pos->leftChild;
+        else if (key == pos->key) break;
+        else pos = pos->rightChild;
+    }
+    
+    if (pos != nullptr) {
+        pos->value = pos->value + value;
+        return pos->value;
+    }
+    
+    rbTreeNode<K, T> *node = new rbTreeNode<K, T>; // the newly inserted node
+    node->key = key;
+    node->value = value;
+    
+    if (parent == nullptr) { // the RBTress is empty now, the newly inserted node will be the root node
+        this->root = node;
+    }
+    else {
+        node->parent = parent; // insert the node to leftChild or rightChild
+        if (node->key < parent->key)
+            parent->leftChild = node;
+        else
+            parent->rightChild = node;
+    }
+    
+    while (node != nullptr) {
+        node = this->insertRemedy(node);
+    }
+    return value;
+}
+
+template <typename K, typename T>
+T RBTree<K, T>::reduce(K key, T value) {
+    rbTreeNode<K, T> *node = this->nodeKey(key);
+    
+    if (node != nullptr) {
+        node->value = node->value - value;
+        node->value = node->value > 0 ? node->value : 0;
+        
+        if (node->value > 0) return node->value;
+        else {
+            // delete the node
+            if (node->leftChild != nullptr && node->rightChild != nullptr) {
+                // deleted node has two childs, find the min node in the right subtree, and delete that node
+                rbTreeNode<K, T> *minNode = this->minInTree(node->rightChild);
+                node->key = minNode->key;
+                node->value = minNode->value;
+                this->erase(minNode);
+            }
+            else {
+                // delete node has no child or one child
+                this->erase(node);
+            }
+            return 0;
+        }
+    }
+    
+    return 0;
 }
 
 template<typename K, typename T>

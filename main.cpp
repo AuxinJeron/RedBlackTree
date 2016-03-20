@@ -23,7 +23,7 @@ int main(int argc, const char * argv[]) {
     // init the red-black tree
     clock_t start = clock();
     
-    vector<pair<int, int>> sortArray;
+    vector<pair<long, long>> sortArray;
     string filename = argv[1];
     fstream fs;
     fs.open(filename);
@@ -42,7 +42,7 @@ int main(int argc, const char * argv[]) {
     fs.close();
     
 //    RBTree<int, int> counterTree;
-    RBTree<int, int> counterTree(sortArray);
+    RBTree<long, long> counterTree(sortArray);
 //    for (int i = 1; i <= 18; i ++) {
 //        counterTree.insert(i, i);
 //    }
@@ -54,8 +54,8 @@ int main(int argc, const char * argv[]) {
     while (getline(cin, line)) {
         istringstream strStream(line);
         string command;
-        int parameter1;
-        int parameter2;
+        long parameter1;
+        long parameter2;
         strStream >> command;
         if (command == "quit") break;
         else if (command == "insert") {
@@ -69,11 +69,16 @@ int main(int argc, const char * argv[]) {
             cout << counterTree.verifyRBTree() << endl;
         }
         else if (command == "increase") {
-            strStream >> parameter1;
-            strStream >> parameter2;
+            strStream >> parameter1; // id
+            strStream >> parameter2; // value
+            cout << counterTree.increase(parameter1, parameter2) << endl;
+            cout << counterTree.verifyRBTree() << endl;
         }
         else if (command == "reduce") {
-            
+            strStream >> parameter1; // id
+            strStream >> parameter2; // value
+            cout << counterTree.reduce(parameter1, parameter2) << endl;
+            cout << counterTree.verifyRBTree() << endl;
         }
         else if (command == "count") {
             strStream >> parameter1; // id

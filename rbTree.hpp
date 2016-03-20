@@ -39,8 +39,8 @@ public:
     K getNext(K key);
     void insert(K key, T value);
     void erase(K key);
-    void increase(K key, T value);
-    void reduce(K key, T value);
+    T increase(K key, T value);
+    T reduce(K key, T value);
     
     // for test
     bool verifyRBTree();
