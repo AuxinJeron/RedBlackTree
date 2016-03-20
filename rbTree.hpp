@@ -41,6 +41,7 @@ public:
     void erase(K key);
     T increase(K key, T value);
     T reduce(K key, T value);
+    T inRange(K key1, K key2);
     
     // for test
     bool verifyRBTree();
@@ -57,6 +58,7 @@ private:
     rbTreeNode<K, T>* minInTree(rbTreeNode<K, T> *node);
     void erase(rbTreeNode<K, T> *node);
     rbTreeNode<K, T>* eraseRemedy(rbTreeNode<K, T> *node);
+    T inRange(rbTreeNode<K, T> *node, K key1, K key2);
     bool verifyRBTree(rbTreeNode<K, T> *node, int &num);
 };
 

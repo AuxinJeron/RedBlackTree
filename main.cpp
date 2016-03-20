@@ -85,7 +85,9 @@ int main(int argc, const char * argv[]) {
             cout << counterTree.getValue(parameter1) << endl;
         }
         else if (command == "inrange") {
-        
+            strStream >> parameter1; // id1
+            strStream >> parameter2; // id2
+            cout << counterTree.inRange(parameter1, parameter2) << endl;
         }
         else if (command == "next") {
             strStream >> parameter1; // id

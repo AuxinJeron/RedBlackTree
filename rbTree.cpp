@@ -229,6 +229,27 @@ T RBTree<K, T>::reduce(K key, T value) {
     return 0;
 }
 
+template <typename K, typename T>
+T RBTree<K, T>::inRange(K key1, K key2) {
+    if (key1 > key2) return 0;
+    
+    return this->inRange(this->root, key1, key2);
+}
+
+template <typename K, typename T>
+T RBTree<K, T>::inRange(rbTreeNode<K, T> *node, K key1, K key2) {
+    if (node == nullptr) return 0;
+    
+    T result = 0;
+    T leftRange, rightRange;
+    
+    if (node->key >= key1 && node->key <= key2) result = node->value;
+    if (node->key > key1) result += this->inRange(node->leftChild, key1, key2);
+    if (node->key < key2) result += this->inRange(node->rightChild, key1, key2);
+    
+    return result;
+}
+
 template<typename K, typename T>
 void RBTree<K, T>::erase(K key) {
     rbTreeNode<K, T> *deleteNode = this->root;
