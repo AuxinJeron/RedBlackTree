@@ -82,43 +82,74 @@ T RBTree<K, T>::getValue(K key) {
 }
 
 template <typename K, typename T>
-K RBTree<K, T>::getPrevious(K key) {
+pair<K, T> RBTree<K, T>::getPrevious(K key) {
     rbTreeNode<K, T> *node = this->root;
+    bool found = false;
     K max = 0; // use the var max to store the max value along the path to key
+    T value = 0;
     while (node != nullptr) {
-        if (node->key < key) max = max > node->key ? max : node->key;
-        if (key == node->key) break;
-        else if (key < node->key) node = node->leftChild;
+        if (node->key < key) {
+            max = max > node->key ? max : node->key;
+            value = max > node->key ? value : node->value;
+            found = true;
+        }
+        if (key <= node->key) node = node->leftChild;
         else node = node->rightChild;
     }
-    if (node == nullptr) return 0; // if didn't find the key, return 0
+    if (node == nullptr && found == false) return make_pair(0, 0); // if didn't find the key, return 0
+    if (node == nullptr && found == true) return make_pair(max, value);
+    
     node = node->leftChild;
     while (node != nullptr) {
-        if (node->key < key) max = max > node->key ? max : node->key;
+        if (node->key < key) {
+            max = max > node->key ? max : node->key;
+            value = max > node->key ? value : node->value;
+            found = true;
+        }
         node = node->rightChild;
     }
-    return max; // if the result is the root node, return 0
+    return make_pair(max, value);
 }
 
 template <typename K, typename T>
-K RBTree<K, T>::getNext(K key) {
+pair<K, T> RBTree<K, T>::getNext(K key) {
     rbTreeNode<K, T> *node = this->root;
+    bool found = false;
     K min = 0;
+    T value = 0;
     while (node != nullptr) {
-        if (node->key > key && min == 0) min = node->key;
-        else if (node->key  > key) min = min <  node->key ? min : node->key;
-        if (key == node->key) break;
-        else if (key < node->key) node = node->leftChild;
+        if (node->key > key && min == 0) {
+            min = node->key;
+            value = node->value;
+            found = true;
+        }
+        else if (node->key > key) {
+            min = min < node->key ? min : node->key;
+            value = min < node->key ? value : node->value;
+            found = true;
+        }
+        if (key < node->key) node = node->leftChild;
         else node = node->rightChild;
     }
-    if (node == nullptr) return 0;
+    
+    if (node == nullptr && found == false) return make_pair(0, 0);
+    if (node == nullptr && found == true) return make_pair(min, value);
+    
     node = node->rightChild;
     while (node != nullptr) {
-        if (node->key > key && min == 0) min = node->key;
-        else if (node->key > key) min = min < node->key ? min : node->key;
+        if (node->key > key && min == 0) {
+            min = node->key;
+            value = node->value;
+            found = true;
+        }
+        else if (node->key > key) {
+            min = min < node->key ? min : node->key;
+            value = min < node->key ? value : node->value;
+            found = true;
+        }
         node = node->leftChild;
     }
-    return min;
+    return make_pair(min, value);
 }
 
 template<typename K, typename T>
@@ -142,7 +173,7 @@ void RBTree<K, T>::insert(K key, T value) {
         else pos = pos->rightChild;
     }
     
-    rbTreeNode<K, T> *node = new rbTreeNode<K, T>; // the newly inserted node
+    rbTreeNode<K, T> *node = new rbTreeNode<K, T>(); // the newly inserted node
     node->key = key;
     node->value = value;
     
@@ -179,7 +210,7 @@ T RBTree<K, T>::increase(K key, T value) {
         return pos->value;
     }
     
-    rbTreeNode<K, T> *node = new rbTreeNode<K, T>; // the newly inserted node
+    rbTreeNode<K, T> *node = new rbTreeNode<K, T>(); // the newly inserted node
     node->key = key;
     node->value = value;
     
@@ -479,7 +510,7 @@ rbTreeNode<K, T>* RBTree<K,T>::treeWithSortedArray(vector<pair<K, T> > &sortArra
     if (begin > end) return nullptr;
     int mid = ceil((begin + end) / 2);
     
-    rbTreeNode<K, T> *node = new rbTreeNode<K, T>;
+    rbTreeNode<K, T> *node = new rbTreeNode<K, T>();
     node->key = sortArray[mid].first;
     node->value = sortArray[mid].second;
     

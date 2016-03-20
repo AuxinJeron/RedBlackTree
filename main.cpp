@@ -91,11 +91,13 @@ int main(int argc, const char * argv[]) {
         }
         else if (command == "next") {
             strStream >> parameter1; // id
-            cout << counterTree.getNext(parameter1) << endl;
+            pair<long, long> result = counterTree.getNext(parameter1);
+            cout << result.first << " " << result.second << endl;
         }
         else if (command == "previous") {
             strStream >> parameter1; // id
-            cout << counterTree.getPrevious(parameter1) << endl;
+            pair<long, long> result = counterTree.getPrevious(parameter1);
+            cout << result.first << " " << result.second << endl;
         }
         else if (command == "display") {
             counterTree.display();

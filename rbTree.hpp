@@ -38,8 +38,8 @@ public:
     
     void display();
     T getValue(K key);
-    K getPrevious(K key);
-    K getNext(K key);
+    pair<K, T> getPrevious(K key);
+    pair<K, T> getNext(K key);
     void insert(K key, T value);
     void erase(K key);
     T increase(K key, T value);
