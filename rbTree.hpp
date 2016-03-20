@@ -17,12 +17,15 @@ enum rbtNodeColor { BLACK, RED };
 
 template <typename K, typename T>
 struct rbTreeNode {
-    K key = 0;
-    T value = 0;
-    rbTreeNode<K, T> *leftChild = nullptr;
-    rbTreeNode<K, T> *rightChild = nullptr;
-    rbTreeNode<K, T> *parent = nullptr;
-    rbtNodeColor color = RED;
+    K key;
+    T value;
+    rbTreeNode<K, T> *leftChild;
+    rbTreeNode<K, T> *rightChild;
+    rbTreeNode<K, T> *parent;
+    rbtNodeColor color;
+    
+    rbTreeNode(): key(0), value(0), leftChild(nullptr), rightChild(nullptr), parent(nullptr), color(RED) {
+    };
 };
 
 template <typename K, typename T>

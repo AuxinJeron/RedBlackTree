@@ -23,7 +23,7 @@ int main(int argc, const char * argv[]) {
     // init the red-black tree
     clock_t start = clock();
     
-    vector<pair<long, long>> sortArray;
+    vector< pair<long, long> > sortArray;
     string filename = argv[1];
     fstream fs;
     fs.open(filename);

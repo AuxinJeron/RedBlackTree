@@ -241,7 +241,6 @@ T RBTree<K, T>::inRange(rbTreeNode<K, T> *node, K key1, K key2) {
     if (node == nullptr) return 0;
     
     T result = 0;
-    T leftRange, rightRange;
     
     if (node->key >= key1 && node->key <= key2) result = node->value;
     if (node->key > key1) result += this->inRange(node->leftChild, key1, key2);
