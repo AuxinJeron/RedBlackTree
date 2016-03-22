@@ -47,9 +47,9 @@ int main(int argc, const char * argv[]) {
 //        counterTree.insert(i, i);
 //    }
     
-    cout << "Has built the red-black tree, input your command[" << (clock() - start) / (double)CLOCKS_PER_SEC << "s]: " << counterTree.verifyRBTree() << endl;
+    //cout << "Has built the red-black tree, input your command[" << (clock() - start) / (double)CLOCKS_PER_SEC << "s]: " << counterTree.verifyRBTree() << endl;
     // interactive part
-    cout << ">>>";
+    //cout << ">>>";
     string line;
     while (getline(cin, line)) {
         istringstream strStream(line);
@@ -66,19 +66,19 @@ int main(int argc, const char * argv[]) {
         else if (command == "delete") {
             strStream >> parameter1; // id
             counterTree.erase(parameter1);
-            cout << counterTree.verifyRBTree() << endl;
+            //cout << counterTree.verifyRBTree() << endl;
         }
         else if (command == "increase") {
             strStream >> parameter1; // id
             strStream >> parameter2; // value
             cout << counterTree.increase(parameter1, parameter2) << endl;
-            cout << counterTree.verifyRBTree() << endl;
+            //cout << counterTree.verifyRBTree() << endl;
         }
         else if (command == "reduce") {
             strStream >> parameter1; // id
             strStream >> parameter2; // value
             cout << counterTree.reduce(parameter1, parameter2) << endl;
-            cout << counterTree.verifyRBTree() << endl;
+            //cout << counterTree.verifyRBTree() << endl;
         }
         else if (command == "count") {
             strStream >> parameter1; // id
@@ -105,8 +105,9 @@ int main(int argc, const char * argv[]) {
         else if (command == "verify") {
             cout << counterTree.verifyRBTree() << endl;
         }
-        cout << ">>>";
+        //cout << ">>>";
     }
     
+    cout << (clock() - start) / (double)CLOCKS_PER_SEC  << "s" << endl;
     return 0;
 }
